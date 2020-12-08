@@ -1,63 +1,60 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">mynuxtjs</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <transition-group appear tag="div">
+      <div v-for="item in list" :key="item.title">
+        <delete-item :item="item" @delete="deleteItem"></delete-item>
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  components: {
+    DeleteItem: () => import('@/components/DeleteItem')
+  },
+  asyncData () {
+    const list = []
+    for (let i = 0; i < 20; i++) {
+      list.push({
+        title: '标题' + i,
+        content: '这是内容'
+      })
+    }
+    return {
+      list
+    }
+  },
+  data () {
+    return {
+    }
+  },
+  computed: {
+  },
+  methods: {
+    deleteItem (obj) {
+      const index = this.list.findIndex(item => item.title === obj.title)
+      this.list.splice(index, 1)
+    }
+  }
+}
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+<style scoped lang="less">
+.v-enter,
+.v-leave-to {
+  opacity: 0; //设置元素的不透明级别：
+  transform: translateY(30px);// 开始和结束位置在Y轴的80px处
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.3s ease;// 从Y轴的80px处渐渐移动到上面
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
+.v-move { transition: all 0.3s ease; }
+.v-leave-active{
+  width: 100%;
+  height: 0;
+  position: absolute;
+} 
 </style>
