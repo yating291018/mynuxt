@@ -9,6 +9,10 @@ export default {
     port: 8080,
     host: '0.0.0.0'
   },
+
+  loading: {
+    color: 'red', height: '3px'
+  },
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
@@ -63,6 +67,10 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
   ],
+
+  router: {
+    // middleware: 'auth'
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
